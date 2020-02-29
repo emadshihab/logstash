@@ -65,7 +65,7 @@ public final class PluginHelper {
      * @return Settings that are common to all output plugins.
      */
     public static Collection<PluginConfigSpec<?>> commonOutputSettings() {
-        return Arrays.asList(ENABLE_METRIC_CONFIG, CODEC_CONFIG, ID_CONFIG);
+        return Arrays.asList(ENABLE_METRIC_CONFIG, CODEC_CONFIG, ID);
     }
 
     /**
@@ -99,6 +99,19 @@ public final class PluginHelper {
     }
 
     @SuppressWarnings("rawtypes")
+    private static Collection<PluginConfigSpec<?>> combineSettings(
+            Collection<PluginConfigSpec<?>> providedSettings,
+            Collection<PluginConfigSpec<?>> commonSettings) {
+        List<PluginConfigSpec<?>> settings = new ArrayList<>(providedSettings);
+        for (PluginConfigSpec pcs : commonSettings) {
+            if (!settings.contains(pcs)) {
+                settings.add(pcs);
+            }
+        }
+        return settings;
+    }
+
+ @SuppressWarnings("rawtypes")
     private static Collection<PluginConfigSpec<?>> combineSettings(
             Collection<PluginConfigSpec<?>> providedSettings,
             Collection<PluginConfigSpec<?>> commonSettings) {
