@@ -30,5 +30,5 @@ public interface Plugin {
      * to them at construction time. Codec plugins should generally create their own UUID at instantiation time
      * and supply that as their ID.
      */
-    String getId();
+    String getIds();
 }
