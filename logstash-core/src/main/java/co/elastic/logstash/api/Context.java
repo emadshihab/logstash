@@ -29,6 +29,14 @@ public interface Context {
      */
     Logger getLogger(Plugin plugin);
 
+
+    /**
+     * Provides a {@link Logger} instance to plugins.
+     * @param plugin The plugin for which the logger should be supplied.
+     * @return       The supplied Logger instance.
+     */
+    Logger getLogger(Plugin plugin);
+
     /**
      * Provides a {@link Logger} instance to plugins.
      * @param plugin The plugin for which the logger should be supplied.
