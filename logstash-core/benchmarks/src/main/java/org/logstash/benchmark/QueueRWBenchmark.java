@@ -116,6 +116,23 @@ public class QueueRWBenchmark {
         future.get();
     }
 
+    @Benchmark
+    @OperationsPerInvocation(EVENTS_PER_INVOCATION)
+    public final void readFromArrayBlockingQueue(final Blackhole blackhole) throws Exception {
+        final Future<?> future = exec.submit(() -> {
+            for (int i = 0; i < EVENTS_PER_INVOCATION; ++i) {
+                try {
+                    queueArrayBlocking.put(EVENT);
+                } catch (final InterruptedException ex) {
+                    throw new IllegalStateException(ex);
+                }
+            }
+        });
+        for (int i = 0; i < EVENTS_PER_INVOCATION; ++i) {
+            blackhole.consume(queueArrayBlocking.take());
+        }
+        future.get();
+    }
     private static Settings settings() {
         return SettingsImpl.fileSettingsBuilder(Files.createTempDir().getPath())
             .capacity(256 * 1024 * 1024)
