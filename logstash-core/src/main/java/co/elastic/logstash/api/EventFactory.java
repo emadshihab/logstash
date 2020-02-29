@@ -14,5 +14,5 @@ public interface EventFactory {
      * @param data Map from which the new event should copy its data.
      * @return     New event copied from the supplied map data.
      */
-    Event newEvent(final Map<? extends Serializable, Object> data);
+    Event newEvent(final Map<? extends Serializable, Object> data1);
 }
