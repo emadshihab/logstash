@@ -47,6 +47,14 @@ public class LogPerPipelineBenchmark {
         logManyLines();
     }
 
+        @Benchmark
+    @OperationsPerInvocation(EVENTS_PER_INVOCATION)
+    public final void logWithoutScriptingCodeToExecute() {
+        System.setProperty("log4j.configurationFile", "log4j2-without-script.properties");
+
+        logManyLines();
+    }
+
     private void logManyLines() {
         LoggerContext context = LoggerContext.getContext(false);
         context.reconfigure();
@@ -54,7 +62,7 @@ public class LogPerPipelineBenchmark {
         Logger logger = LogManager.getLogger(LogPerPipelineBenchmark.class);
 
         for (int i = 0; i < EVENTS_PER_INVOCATION; ++i) {
-            logger.info("log for pipeline 1");
+            logger.info("log for pipeline 2");
         }
     }
 }
