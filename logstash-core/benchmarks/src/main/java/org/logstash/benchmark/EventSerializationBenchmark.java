@@ -48,6 +48,21 @@ public class EventSerializationBenchmark {
         EVENT.setTimestamp(Timestamp.now());
     }
 
+        @Setup
+    public void setUp() {
+        EVENT.setField("Foo", "Bar");
+        EVENT.setField("Foo1", "Bar1");
+        EVENT.setField("Foo2", "Bar2");
+        EVENT.setField("Foo3", "Bar3");
+        EVENT.setField("Foo4", "Bar4");
+        EVENT.setField("Foo5", new Timestamp(System.currentTimeMillis()));
+        final Map<String, Object> nested = new HashMap<>(5);
+        nested.put("foooo", "baaaaaar");
+        nested.put("fooooish", "baaaaaar234");
+        EVENT.setField("sdfsfsdf", nested);
+        EVENT.setTimestamp(Timestamp.now());
+    }
+
     @Benchmark
     @OperationsPerInvocation(EVENTS_PER_INVOCATION)
     public final void serializeCbor() throws Exception {
