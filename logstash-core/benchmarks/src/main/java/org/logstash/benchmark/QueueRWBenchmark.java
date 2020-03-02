@@ -98,6 +98,29 @@ public class QueueRWBenchmark {
         future.get();
     }
 
+
+      @Benchmark
+    @OperationsPerInvocation(EVENTS_PER_INVOCATION)
+    public final void readFromPersistedQueue(final Blackhole blackhole) throws Exception {
+        final Future<?> future = exec.submit(() -> {
+            for (int i = 0; i < EVENTS_PER_INVOCATION; ++i) {
+                try {
+                    this.queuePersisted.write(EVENT);
+                } catch (final IOException ex) {
+                    throw new IllegalStateException(ex);
+                }
+            }
+        });
+        for (int i = 0; i < EVENTS_PER_INVOCATION / BATCH_SIZE; ++i) {
+            try (Batch batch = queuePersisted.readBatch(BATCH_SIZE, TimeUnit.SECONDS.toMillis(1))) {
+                for (final Queueable elem : batch.getElements()) {
+                    blackhole.consume(elem);
+                }
+            }
+        }
+        future.get();
+    }
+
     @Benchmark
     @OperationsPerInvocation(EVENTS_PER_INVOCATION)
     public final void readFromArrayBlockingQueue(final Blackhole blackhole) throws Exception {
